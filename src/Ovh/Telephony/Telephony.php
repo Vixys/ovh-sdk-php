@@ -101,6 +101,37 @@ class Telephony
     {
         return json_decode(self::getClient()->getServiceInfos($this->billingAccount));
     }
+
+    /**
+     * Previous billed consumptions
+     * @return array Billed consumption date
+     */
+    public function getHistoryConsumption()
+    {
+        return json_decode(self::getClient()->getHistoryConsumption($this->billingAccount));
+    }
+
+
+    /**
+     * Get billed properties
+     * @param date
+     * @return array Billed consumption date
+     */
+    public function getHistoryConsumptionDate($date)
+    {
+        return json_decode(self::getClient()->getHistoryConsumptionDate($this->billingAccount, $date));
+    }
+
+    /**
+     * Previous billed consumptions
+     * @param date
+     * @param format
+     * @return array Billed consumption date
+     */
+    public function getHistoryConsumptionDocument($date, $format)
+    {
+        return json_decode(self::getClient()->getHistoryConsumptionDocument($this->billingAccount, $date, $format));
+    }
 }
 
  ?>

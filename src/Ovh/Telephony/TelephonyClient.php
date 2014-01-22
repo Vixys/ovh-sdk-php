@@ -89,6 +89,61 @@ class TelephonyClient extends AbstractClient
         }
         return $r->getBody(true);
     }
+
+    public function getHistoryConsumption($billingAccount)
+    {
+        if (!$billingAccount)
+            throw new BadMethodCallException('Parameter $billingAccount is missing.');
+        try {
+            $r = $this->get('telephony/' . $billingAccount . '/historyConsumption')->send();
+        } catch (\Exception $e) {
+            throw new TelephonyException($e->getMessage(), $e->getCode(), $e);
+        }
+        return $r->getBody(true);
+    }
+
+    public function getHistoryConsumptionDate($billingAccount, $date)
+    {
+        if (!$billingAccount)
+            throw new BadMethodCallException('Parameter $billingAccount is missing.');
+        if (!$date)
+            throw new BadMethodCallException('Parameter $date is missing.');
+
+        if ($date instanceof \Datetime)
+        {
+            $date = $date->format("Y-m-d");
+        }
+
+        try {
+            $r = $this->get('telephony/' . $billingAccount . '/historyConsumption/' . $date)->send();
+        } catch (\Exception $e) {
+            throw new TelephonyException($e->getMessage(), $e->getCode(), $e);
+        }
+        return $r->getBody(true);
+    }
+
+    public function getHistoryConsumptionDocument($billingAccount, $date, $format = "pdf")
+    {
+        if (!$billingAccount)
+            throw new BadMethodCallException('Parameter $billingAccount is missing.');
+        if (!$date)
+            throw new BadMethodCallException('Parameter $date is missing.');
+
+        if ($date instanceof \Datetime)
+        {
+            $date = $date->format("Y-m-d");
+        }
+
+        if (!in_array($format, array('pdf', 'xml', 'csv')))
+            throw new BadMethodCallException('Parameter $format is not valid. Valid value are: "' . join("\", \"", array('pdf', 'xml', 'csv')) . '"');
+
+        try {
+            $r = $this->get('telephony/' . $billingAccount . '/historyConsumption/' . $date . '/document?extension=' . $format)->send();
+        } catch (\Exception $e) {
+            throw new TelephonyException($e->getMessage(), $e->getCode(), $e);
+        }
+        return $r->getBody(true);
+    }
 }
 
 
